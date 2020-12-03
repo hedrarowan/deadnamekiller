@@ -4,7 +4,12 @@ let replacements;
 let paragraphs = document.getElementsByTagName('*')
 
 chrome.storage.sync.get('replacements', function(data) {
-  replacements = data.replacements
+  if(data.replacements) {
+    replacements = data.replacements
+  } else {
+    replacements = []
+  }
+ 
   console.log(replacements)
   findReplace(replacements)
 
@@ -14,7 +19,7 @@ chrome.runtime.onMessage.addListener(gotMessage)
 
 
 function gotMessage(req, sender, sendResponse) {
-  console.log(req.deadname)
+  
   function exists(arr, search) {
     return replacements.some(row => row.includes(search))
   }
