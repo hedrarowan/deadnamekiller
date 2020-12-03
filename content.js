@@ -1,4 +1,4 @@
-console.log('hey boy')
+
 let replacements;
 
 let paragraphs = document.getElementsByTagName('*')
@@ -10,9 +10,8 @@ chrome.storage.sync.get('replacements', function(data) {
 
 })
 
-
-
 chrome.runtime.onMessage.addListener(gotMessage)
+
 
 function gotMessage(req, sender, sendResponse) {
 
@@ -22,10 +21,7 @@ function gotMessage(req, sender, sendResponse) {
 
   if(!exists(replacements, req.deadname)) {
     replacements.push([req.deadname, req.realname])
-  } else {
-    console.log("HEYYY")
   }
-
 
   chrome.storage.sync.set({replacements: replacements})
 
@@ -33,46 +29,28 @@ function gotMessage(req, sender, sendResponse) {
 }
 
 
-
-
-
-
 function findReplace(replacements) {
   for (let i = 0; i < paragraphs.length; i++) {
 
     for (let j = 0; j < replacements.length; j++) {
 
-      if(paragraphs[i].innerHTML.includes(replacements[j][0])) {
+      includesReplace(paragraphs[i], replacements[j][0], replacements[j][1], i)
 
-
-        let newParagraph = paragraphs[i].innerHTML.replace(replacements[j][0], replacements[j][1])
-
-        document.getElementsByTagName('*')[i].innerHTML = newParagraph
-
-       // just first name
-
-      }
 
       let deadNameFirst = replacements[j][0].split(' ')[0]
       let realNameFirst = replacements[j][1].split(' ')[0]
 
-      if(paragraphs[i].innerHTML.includes(deadNameFirst)){
+      includesReplace(paragraphs[i], deadNameFirst, realNameFirst, i)
 
 
-      let firstNameReplace = paragraphs[i].innerHTML.replace(deadNameFirst, realNameFirst)
-
-      document.getElementsByTagName('*')[i].innerHTML = firstNameReplace
-      }
 
       let deadNameLast = replacements[j][0].split(' ')[1]
       let realNameLast = replacements[j][1].split(' ')[1]
 
       if(deadNameLast !== realNameLast) {
-        if(paragraphs[i].innerHTML.includes(deadNameLast)) {
-          let lastNameReplace = paragraphs[i].innerHTML.replace(deadNameLast, realNameLast)
 
-          document.getElementsByTagName('*')[i].innerHTML = lastNameReplace
-        }
+      includesReplace(paragraphs[i], deadNameLast, realNameLast, i)
+
       }
 
     }
@@ -80,3 +58,9 @@ function findReplace(replacements) {
   }
 }
 
+function includesReplace(text, deadname, realname, index) {
+  if(text.innerHTML.includes(deadname)) {
+    let newText = text.innerHTML.replace(deadname, realname)
+    document.getElementsByTagName('*')[index].innerHTML = newText
+  }
+}
