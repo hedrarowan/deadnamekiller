@@ -2,22 +2,31 @@
 <html>
   <head>
     <style>
+      body {
+        color: rgb(255, 255, 255);
+        text-shadow: 2px 2px 4px #000000;
+        background-color: aqua;
+        background: linear-gradient(90deg, rgb(252, 252, 252) 0%, rgba(244,66,134,1) 47%, rgba(0,212,255,1) 100%);
+      }
+
       button {
         height: 30px;
         width: 60px;
         outline: none;
         align-content: center;
+        color: white;
+        background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(244,66,134,1) 47%, rgba(0,212,255,1) 100%);
       }
     </style>
   </head>
   <body>
-    <form id='form'>
+    <form id='form' >
       <input id="deadname" type="text" name="name"/>
       <label htmlFor="deadname">dead name :'(</label>
       <input id="realname" type="text" name="name" />
       <label htmlFor="realname">real name :)</label>
     </form>
-    <button id="changeName" type='submit'>Click</button>
+    <button id="changeName" type='submit'>Kill</button>
     <script src="popup.js"></script>
   </body>
 </html>

@@ -1,21 +1,40 @@
 console.log('hey boy')
+let replacements;
 
-let replacements = [
-];
+let paragraphs = document.getElementsByTagName('*')
+
+chrome.storage.sync.get('replacements', function(data) {
+  replacements = data.replacements
+  console.log(replacements)
+  findReplace(replacements)
+
+})
+
 
 
 chrome.runtime.onMessage.addListener(gotMessage)
 
 function gotMessage(req, sender, sendResponse) {
-  replacements.push([req.deadname, req.realname])
+
+  function exists(arr, search) {
+    return replacements.some(row => row.includes(search))
+  }
+
+  if(!exists(replacements, req.deadname)) {
+    replacements.push([req.deadname, req.realname])
+  } else {
+    console.log("HEYYY")
+  }
+
+
+  chrome.storage.sync.set({replacements: replacements})
+
   findReplace(replacements)
 }
 
 
-let paragraphs = document.getElementsByTagName('*')
-let body = document.getElementsByTagName('*')
-let deadName = document.getElementById('deadname')
-let realName = document.getElementById('realname')
+
+
 
 
 function findReplace(replacements) {
@@ -48,7 +67,7 @@ function findReplace(replacements) {
       let deadNameLast = replacements[j][0].split(' ')[1]
       let realNameLast = replacements[j][1].split(' ')[1]
 
-      if(deadnameLast !== realNameLast) {
+      if(deadNameLast !== realNameLast) {
         if(paragraphs[i].innerHTML.includes(deadNameLast)) {
           let lastNameReplace = paragraphs[i].innerHTML.replace(deadNameLast, realNameLast)
 

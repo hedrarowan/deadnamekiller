@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', documentEvents  , false);
 
 function myAction(deadname, realname) {
+
     let params = {
       active: true,
       currentWindow: true,
