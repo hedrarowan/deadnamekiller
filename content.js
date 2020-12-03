@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(gotMessage)
 
 
 function gotMessage(req, sender, sendResponse) {
-
+  console.log(req.deadname)
   function exists(arr, search) {
     return replacements.some(row => row.includes(search))
   }
